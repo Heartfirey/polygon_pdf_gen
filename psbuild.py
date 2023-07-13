@@ -72,12 +72,12 @@ def write_tex_template(base_dir, file_content):
 
 def build_tex_document(base_dir):
     print("Start build statement PDF...", end="")
-    result = subprocess.check_call("pdflatex.exe -synctex=1 -interaction=nonstopmode \"statement\".tex -shell-escape", cwd=os.path.join(base_dir, 'temp'))
+    try:
+        result = subprocess.Popen("pdflatex.exe -synctex=1 -interaction=nonstopmode \"statement\".tex -shell-escape", cwd=os.path.join(base_dir, 'temp'))
+    except Exception as failure:
+        print(f"Failed! Info: {failure}")
     if result == 0:
         print('OK')
-    else:
-        print('Failed!')
-        quit()
 
 def move_file(base_dir, output_dir):
     file_source = os.path.join(base_dir, 'temp', 'statement.pdf')
